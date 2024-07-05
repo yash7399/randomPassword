@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+    <style>
+        :root {
+            --bulbc:rgb(252, 3, 3);
+            --lightpurple:rgb(182, 1, 182)
+        }
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to right, var(--lightpurple) -24%, rgb(109, 0, 242) 82%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        #heading{
+            font-weight: 800;
+            font-size: x-large ;
+        }
+        #wrapper {
+            width: fit-content;
+            height: 70%;
+            /* background-color: white; */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            
+        }
+
+        #pass {
+            width: 100%;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: rgb(238, 81, 212) 0px 3px 3px;
+            padding: 30px;
+            
+        }
+
+        #wrapper2 {
+            width: 100%;
+            height: fit-content;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: rgb(238, 81, 212) 0px 3px 3px;
+            display: flex;
+            flex-direction: column;
+            flex-direction: column;
+            /* align-items: center; */
+            justify-content: space-around;
+            padding: 30px;
+            gap: 15px;
+        }
+        #slide{
+            -webkit-appearance: none;
+            height: 3px;
+            background-color: var(--lightpurple);
+            /* overflow: hidden; */
+        }
+        #slide::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            background-color: rgb(240, 252, 0);
+            border-radius: 100%;
+            box-shadow:rgb(240, 252, 0) 0px 0px  20px;
+        }
+         #label{
+            position: relative;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            
+        }
+        .tick{
+            display: flex;
+            justify-self: center;
+            align-items: center;
+            height: 30px;
+        }
+        .tick input{
+            position: absolute;
+            accent-color: yellow;
+            width:100%;
+            height: 100%;
+            border: none;
+            
+        }
+        #length{
+            display: flex;
+            justify-content: space-between;
+        }
+        #strength{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #bulb{
+            height: 15px;
+            width: 15px;
+            border-radius: 100%;
+            box-shadow: var(--bulbc) 0px 0px 20px ;
+            background-color: var(--bulbc);
+            box-shadow: 0 0 20px 5px var(--bulbc),
+                        0 0 5px 0px var(--bulbc),
+                        0 0 20px 0px var(--bulbc);
+        }
+        #generate{
+            height: 40px;
+            background-color: var(--lightpurple);
+            border: none;
+            color: yellow;
+            font-weight: 700;
+            box-shadow: yellow 0px 3px 5px;
+            border-radius: 5px;
+        }
+        #pass{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            align-items: center;
+            color: yellow;
+            font-weight:900;
+            font-size: x-large;
+        }
+        #copy{
+            /* width: 10px; */
+            cursor: pointer;
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="heading">
+            PASSWORD GENERATOR
+        </div>
+        <div id="pass">
+            <div id="password">[password]</div>
+            <div id="copy" onclick="copy()">
+                <p><ul>Copy!</ul></p>
+            </div>
+        </div>
+        <div id="wrapper2">
+            <div id="length" style="display: flex;">
+                <div>Password Length </div>
+                <div id="count">4</div>
+            </div>
+            <input id="slide" type="range" id="myRange" name="rangeInput" min="0" max="20" value="4">
+            <div id="ticks">
+                <div class="tick">
+                    <div id="label">
+                        <input type="checkbox"  name="" id="up">
+                    </div>
+                   <p> Include UpperCase Letters</p>
+            </div>
+            <div class="tick">
+                <div id="label">
+                    <input type="checkbox" name="" id="low">
+                </div>
+               <p> Include LowerCase Letters</p>
+        </div>
+        <div class="tick">
+            <div id="label">
+                <input type="checkbox" name="" id="num">
+            </div>
+           <p> Include Numbers</p>
+    </div>
+    <div class="tick">
+        <div id="label">
+            <input type="checkbox" name="" id="sym">
+        </div>
+       <p> Include Symbols</p>
+</div>
+            </div>
+            <div id="strength">Strength
+                <div id="bulb"></div>
+            </div>
+            <button id="generate" onclick="gen()" >
+                GENERATE PASSWORD
+            </button>
+        </div>
+
+    </div>
+
+    </div>
+    <script >
+            let count=document.querySelector("#count")
+            let slide=document.querySelector("#slide")
+            slide.addEventListener("click",()=>{
+                let x=slide.value
+                count.innerText=`${x}`
+            })
+            let up=document.getElementById("up")
+            let low=document.getElementById("low")
+            let num=document.getElementById("num")
+            let sym=document.getElementById("sym")
+
+            let st=0;
+            function strength(){
+                if(st==2){
+                    // document.getElementById("bulb").style.backgroundColor="yellow"
+                    document.documentElement.style.setProperty('--bulbc', "yellow")
+                }
+                if(st>2){
+                     document.documentElement.style.setProperty("--bulbc","rgb(3, 252, 52)")
+                }
+            }
+            up.addEventListener("click",()=>{
+                if(up.checked){
+                    st++
+                }
+                else{
+                    st--
+                }
+                strength()
+            })
+            low.addEventListener("click",()=>{
+                if(low.checked){
+                    st++
+                }
+                else{
+                    st--
+                }
+              
+                strength()
+            })
+            num.addEventListener("click",()=>{
+                if(num.checked){
+                    st++
+                }
+                else{
+                    st--
+                }
+                
+                strength()
+            })
+            sym.addEventListener("click",()=>{
+                if(sym.checked){
+                    st++
+                }
+                else{
+                    st--
+                }
+                strength()
+            })
+            
+           function gen(){
+                let upper;
+                let lower;
+                let number;
+                let symbol;
+                let allCharacters="";
+                if(up.checked){
+                    upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    allCharacters+=upper
+                }
+                if(low.checked){
+                    lower="abcdefghijklmnopqrstuvwxyz"
+                    allCharacters+=lower
+                }
+                if(num.checked){
+                    number="1234567809"
+                    allCharacters+=number
+                }
+                if(sym.checked){
+                    symbol="!@#$%^&*()_+[]{}|;:,.<>?"
+                    allCharacters+=symbol
+                }
+            
+            let randomString = '';
+                console.log(allCharacters);
+            for (let i = 0; i < slide.value; i++) {
+                const randomIndex = Math.floor(Math.random() * allCharacters.length);
+                randomString += allCharacters[randomIndex];
+                
+            }
+            console.log(randomString);
+            document.getElementById('password').textContent = randomString;
+            }
+            
+        function copy(){
+            const textToCopy = document.getElementById('password').innerText;
+            navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                let copied=document.getElementById("copy").innerText="Copied"
+                })
+        }
+   </script>
+</body>
+
+</html>
